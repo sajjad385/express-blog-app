@@ -1,19 +1,21 @@
 const User = require('../models/User')
-const {use} = require("express/lib/router");
+const bcrypt = require('bcrypt')
 
 exports.signupGet = (req, res, next) => {
     res.render('pages/auth/signup', {title: 'Create A New Account'})
 }
 exports.signupPost = async (req, res, next) => {
-    let {username, email, password, confirmPassword} = req.body
-    let user = new User({
-        username,
-        email,
-        password
-    })
+
     try {
+        let {username, email, password, confirmPassword} = req.body
+        let hashPassword = await bcrypt.hash(password, 11)
+        let user = new User({
+            username,
+            email,
+            password: hashPassword
+        })
         let createdUser = await user.save()
-        console.log('User Created Successfully',createdUser)
+        console.log('User Created Successfully', createdUser)
         res.render('pages/auth/signup', {title: 'Create A New Account'})
     } catch (e) {
 
