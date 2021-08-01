@@ -1,10 +1,18 @@
 const {Schema, model} = require('mongoose')
-const User = require("./User");
-const Post = require("./Post");
+// const User = require("./User");
+const User = 'User';
+// const Post = require("./Post");
+const Post = 'Post';
 const profileSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: User,
+        required: true
+    },
+    name: {
+        type: String,
+        trim: true,
+        maxlength: 30,
         required: true
     },
     title: {

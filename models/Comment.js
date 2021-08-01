@@ -1,5 +1,6 @@
 const {Schema, model} = require('mongoose')
-const User = require("./User");
+// const User = require("./User");
+const User = 'User';
 const commentSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
