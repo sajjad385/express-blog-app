@@ -42,10 +42,19 @@ exports.signupPost = async (req, res, next) => {
 }
 
 exports.loginGet = (req, res, next) => {
-    res.render('pages/auth/login', {title: 'Login Your Account'})
+    res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
 }
 exports.loginPost = async (req, res, next) => {
     let {email, password} = req.body
+    let errors = validationResult(req).formatWith(errorFormatter)
+    if (!errors.isEmpty()) {
+        console.log(errors.mapped())
+        return res.render('pages/auth/login', {
+            title: 'Login Your Account',
+            error: errors.mapped(),
+            existingValue: {email}
+        })
+    }
     try {
         let user = await User.findOne({email})
         if (!user) {
@@ -61,7 +70,7 @@ exports.loginPost = async (req, res, next) => {
             })
         }
         console.log('Successfully Logged In', user)
-        res.render('pages/auth/login', {title: 'Login Your Account'})
+        res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
 
 
     } catch (e) {
