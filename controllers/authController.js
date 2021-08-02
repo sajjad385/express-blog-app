@@ -24,10 +24,31 @@ exports.signupPost = async (req, res, next) => {
 }
 
 exports.loginGet = (req, res, next) => {
-
+    res.render('pages/auth/login', {title: 'Login Your Account'})
 }
-exports.loginPost = (req, res, next) => {
+exports.loginPost = async (req, res, next) => {
+    let {email, password} = req.body
+    try {
+        let user = await User.findOne({email})
+        if (!user) {
+            return res.json({
+                message: 'Invalid Credentials'
+            })
+        }
+        let passwordMatch = await bcrypt.compare(password, user.password)
 
+        if (!passwordMatch) {
+            return res.json({
+                message: 'Invalid Credentials'
+            })
+        }
+        console.log('Successfully Logged In',user)
+        res.render('pages/auth/login', {title: 'Login Your Account'})
+
+
+    } catch (e) {
+
+    }
 }
 exports.logout = (req, res, next) => {
 
