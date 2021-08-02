@@ -1,10 +1,10 @@
-<%- include('../../partials/head.ejs') %>
+<%- include('../partials/head.ejs') %>
 <div class="container my-container my-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <div class="card card-body">
                 <h3>Create A New Account</h3>
-                <form action="/auth/signup" method="post">
+                <form action="/playground/validator" method="post">
                     <div class="form-group mt-2">
                         <label for="username">Enter Your User Name <span>(Must be Unique)</span></label>
                         <input type="text" name="username" id="username"
@@ -45,7 +45,7 @@
         </div>
     </div>
 </div>
-<%- include('../../partials/footer.ejs') %>
+<%- include('../partials/footer.ejs') %>
 <script></script>
 </body>
 </html>
