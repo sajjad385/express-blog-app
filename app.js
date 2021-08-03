@@ -10,6 +10,7 @@ const authRoutes = require('./routes/authRoutes')
 //Import Middlewares
 
 const {bindUserWithRequest} = require('./middleware/authMiddleware')
+const setLocals = require('./middleware/setLocals')
 
 //Playground Routes
 const validatorRoutes = require('./playground/validator') //TODO: Should be remove
@@ -39,7 +40,8 @@ const middleware = [
         saveUninitialized: false,
         store: store
     }),
-    bindUserWithRequest()
+    bindUserWithRequest(),
+    setLocals()
 ]
 app.use(middleware)
 
