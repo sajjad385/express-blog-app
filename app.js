@@ -7,6 +7,10 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 //Import Routes
 const authRoutes = require('./routes/authRoutes')
 
+//Import Middlewares
+
+const {bindUserWithRequest} = require('./middleware/authMiddleware')
+
 //Playground Routes
 const validatorRoutes = require('./playground/validator') //TODO: Should be remove
 
@@ -34,7 +38,8 @@ const middleware = [
         resave: false,
         saveUninitialized: false,
         store: store
-    })
+    }),
+    bindUserWithRequest()
 ]
 app.use(middleware)
 
