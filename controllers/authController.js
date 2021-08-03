@@ -42,7 +42,6 @@ exports.signupPost = async (req, res, next) => {
 }
 
 exports.loginGet = (req, res, next) => {
-    console.log(req.session.isLoggedIn,req.session.user)
     res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
 }
 exports.loginPost = async (req, res, next) => {

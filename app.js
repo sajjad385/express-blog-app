@@ -6,6 +6,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 //Import Routes
 const authRoutes = require('./routes/authRoutes')
+const dashboardRoute = require('./routes/dashboardRoute')
 
 //Import Middlewares
 
@@ -47,6 +48,7 @@ app.use(middleware)
 
 
 app.use('/auth', authRoutes)
+app.use('/dashboard', dashboardRoute)
 app.use('/playground', validatorRoutes) //TODO: Should be remove
 app.get('/', (req, res) => {
     res.json({
@@ -59,7 +61,6 @@ app.get('*', (req, res) => {
 
 
 //Server Connection
-
 const PORT = process.env.PORT || 4141
 mongoose.connect(`${dbHost}`, {
     useNewUrlParser: true,
