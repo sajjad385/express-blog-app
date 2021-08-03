@@ -13,3 +13,16 @@ exports.bindUserWithRequest = () => {
         }
     }
 }
+
+exports.isAuthenticated = (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect('/auth/login')
+    }
+    next() // if every is alright you can access it or go where you want to go
+}
+exports.isUnAuthenticated = (req, res, next) => {
+    if (req.session.isLoggedIn) {
+        return res.redirect('/dashboard')
+    }
+    next() // if every is alright you can access it or go where you want to go
+}

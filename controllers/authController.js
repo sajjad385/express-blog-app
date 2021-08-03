@@ -73,7 +73,14 @@ exports.loginPost = async (req, res, next) => {
         // res.setHeader('Set-Cookie','isLoggedIn=true')
         req.session.isLoggedIn = true
         req.session.user = user
-        res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
+        req.session.save(err => {
+            if (err) {
+                console.log(err)
+                return next(err)
+            }
+            return res.redirect('/dashboard')
+        })
+        // res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
 
 
     } catch (e) {
@@ -81,5 +88,11 @@ exports.loginPost = async (req, res, next) => {
     }
 }
 exports.logout = (req, res, next) => {
-
+    req.session.destroy(err => {
+        if (err) {
+            console.log(err)
+            return next(err)
+        }
+        return res.redirect('/auth/login')
+    })
 }
