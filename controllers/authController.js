@@ -42,6 +42,7 @@ exports.signupPost = async (req, res, next) => {
 }
 
 exports.loginGet = (req, res, next) => {
+    console.log(req.session.isLoggedIn,req.session.user)
     res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
 }
 exports.loginPost = async (req, res, next) => {
@@ -70,6 +71,9 @@ exports.loginPost = async (req, res, next) => {
             })
         }
         console.log('Successfully Logged In', user)
+        // res.setHeader('Set-Cookie','isLoggedIn=true')
+        req.session.isLoggedIn = true
+        req.session.user = user
         res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
 
 
