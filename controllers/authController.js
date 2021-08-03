@@ -32,9 +32,8 @@ exports.signupPost = async (req, res, next) => {
             email,
             password: hashPassword
         })
-        let createdUser = await user.save()
-        console.log('User Created Successfully', createdUser)
-        res.render('pages/auth/signup', {title: 'Create A New Account',error:{},existingValue:{}})
+        await user.save()
+        res.redirect('/auth/login')
     } catch (e) {
 
     }
