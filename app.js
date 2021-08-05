@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash')
+const config = require('config')
 
 //Import Routes
 const authRoutes = require('./routes/authRoutes')
@@ -32,9 +33,16 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 
-if (app.get('env').toLowerCase() === 'development') {
+/*if (app.get('env').toLowerCase() === 'development') {
+
+    console.log(config.dev.name)
     app.use(morgan('dev'))
-}
+
+} else {
+    console.log(config.prod.name)
+}*/
+
+console.log(config.get('name'))
 
 //Middleware Array
 const middleware = [
