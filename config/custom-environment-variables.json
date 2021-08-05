@@ -1,0 +1,6 @@
+{
+  "db-username": "testadmin",
+  "db-password": "testadmin",
+  "db-name": "express-blog",
+  "secret": "SECRET"
+}

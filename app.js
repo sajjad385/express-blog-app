@@ -6,7 +6,10 @@ const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash')
 const config = require('config')
+const chalk = require('chalk')
+const testConsole =require('debug')('app:test')
 
+// testConsole('this is test console')
 //Import Routes
 const authRoutes = require('./routes/authRoutes')
 const dashboardRoute = require('./routes/dashboardRoute')
@@ -41,7 +44,6 @@ app.set('views', 'views')
 } else {
     console.log(config.prod.name)
 }*/
-
 console.log(config.get('name'))
 
 //Middleware Array
@@ -82,8 +84,8 @@ mongoose.connect(`${dbHost}`, {
     useUnifiedTopology: true
 }).then(() => {
     app.listen(PORT, () => {
-        console.log('Database Connect Successfully')
-        console.log(`Server is running on PORT ${PORT}`)
+        console.log(chalk.bgGreen('Database Connect Successfully'))
+        console.log(chalk.greenBright.italic(`Server is running on PORT ${PORT}`))
     })
 }).catch(e => {
     console.log(e)
