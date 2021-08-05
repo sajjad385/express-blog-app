@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="my-2">
+        <% if (flashMessage.success){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= (flashMessage.success) %>
+            </div>
+
+        <% } %>
+        <% if (flashMessage.fail){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= (flashMessage.fail) %>
+            </div>
+        <% } %>
+    </div>
+</div>

@@ -2,26 +2,30 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const {validationResult, body} = require("express-validator");
 const errorFormatter = require('../utils/validationErrorFormatter')
+const Flash = require("../utils/Flash");
 
 exports.signupGet = (req, res, next) => {
     res.render('pages/auth/signup',
         {
             title: 'Create A New Account',
             error: {},
-            existingValue: {}
+            existingValue: {},
+            flashMessage: Flash.getMessage(req)
         })
 }
 exports.signupPost = async (req, res, next) => {
     let {username, email, password, confirmPassword} = req.body
     let errors = validationResult(req).formatWith(errorFormatter)
     if (!errors.isEmpty()) {
+        req.flash('fail','Please check given value!')
         console.log(errors.mapped())
         return res.render('pages/auth/signup', {
             title: 'Create A New Account',
             error: errors.mapped(),
             existingValue: {
                 username, email, password
-            }
+            },
+            flashMessage: Flash.getMessage(req)
         })
     }
     try {
@@ -33,6 +37,7 @@ exports.signupPost = async (req, res, next) => {
             password: hashPassword
         })
         await user.save()
+        req.flash('success','Signup Successfully')
         res.redirect('/auth/login')
     } catch (e) {
 
@@ -41,31 +46,46 @@ exports.signupPost = async (req, res, next) => {
 }
 
 exports.loginGet = (req, res, next) => {
-    res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
+    res.render('pages/auth/login', {
+        title: 'Login Your Account',
+        error: {},
+        existingValue: {},
+        flashMessage: Flash.getMessage(req)
+    })
 }
 exports.loginPost = async (req, res, next) => {
     let {email, password} = req.body
     let errors = validationResult(req).formatWith(errorFormatter)
     if (!errors.isEmpty()) {
+        req.flash('fail','Please check given value!')
         console.log(errors.mapped())
         return res.render('pages/auth/login', {
             title: 'Login Your Account',
             error: errors.mapped(),
-            existingValue: {email}
+            existingValue: {email},
+            flashMessage: Flash.getMessage(req)
         })
     }
     try {
         let user = await User.findOne({email})
         if (!user) {
-            return res.json({
-                message: 'Invalid Credentials'
+            req.flash('fail','Please Provide Valid Credentials')
+            return res.render('pages/auth/login', {
+                title: 'Login Your Account',
+                error: {},
+                existingValue: {},
+                flashMessage: Flash.getMessage(req)
             })
         }
         let passwordMatch = await bcrypt.compare(password, user.password)
 
         if (!passwordMatch) {
-            return res.json({
-                message: 'Invalid Credentials'
+            req.flash('fail','Please Provide Valid Credentials')
+            return res.render('pages/auth/login', {
+                title: 'Login Your Account',
+                error: {},
+                existingValue: {},
+                flashMessage: Flash.getMessage(req)
             })
         }
         console.log('Successfully Logged In', user)
@@ -77,6 +97,7 @@ exports.loginPost = async (req, res, next) => {
                 console.log(err)
                 return next(err)
             }
+            req.flash('success','Successfully Logged In')
             return res.redirect('/dashboard')
         })
         // res.render('pages/auth/login', {title: 'Login Your Account', error: {}, existingValue: {}})
@@ -87,6 +108,7 @@ exports.loginPost = async (req, res, next) => {
     }
 }
 exports.logout = (req, res, next) => {
+    req.flash('success','Successfully Logout')
     req.session.destroy(err => {
         if (err) {
             console.log(err)
