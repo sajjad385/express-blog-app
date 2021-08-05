@@ -22,6 +22,25 @@ setMiddleware(app)
 //Using routes from routes directory
 setRoutes(app)
 
+app.use((req, res, next) => {
+    let error = new Error('404 page not found')
+    error.status = 404
+    next(error)
+})
+app.use((error, req, res, next) => {
+    if (error.status === 404) {
+        return res.render('pages/errors/404', {
+            title: '404 Not Found',
+            flashMessage: {}
+        })
+    }
+    console.log(chalk.redBright(error.message))
+    return res.render('pages/errors/500', {
+        title: 'Internal Server Error',
+        flashMessage: {}
+    })
+})
+
 //Server Connection
 const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.ivbeu.mongodb.net/${process.env.DB_NAME}`
 

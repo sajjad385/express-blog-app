@@ -21,17 +21,15 @@ const routes = [
                 message: 'Welcome to my app'
             })
         }
-    },
-    {
-        path: '*',
-        handler: (req, res) => {
-            res.send('<h1>404 !<br> Page Not Found</h1>')
-        }
     }
 ]
 
 module.exports = app => {
     routes.forEach(route => {
-        app.use(route.path, route.handler)
+        if (route.path === '/') {
+            app.get(route.path, route.handler)
+        } else {
+            app.use(route.path, route.handler)
+        }
     })
 }

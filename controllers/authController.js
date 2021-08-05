@@ -18,7 +18,6 @@ exports.signupPost = async (req, res, next) => {
     let errors = validationResult(req).formatWith(errorFormatter)
     if (!errors.isEmpty()) {
         req.flash('fail','Please check given value!')
-        console.log(errors.mapped())
         return res.render('pages/auth/signup', {
             title: 'Create A New Account',
             error: errors.mapped(),
@@ -40,7 +39,7 @@ exports.signupPost = async (req, res, next) => {
         req.flash('success','Signup Successfully')
         res.redirect('/auth/login')
     } catch (e) {
-
+        next(e)
     }
 
 }
@@ -94,7 +93,6 @@ exports.loginPost = async (req, res, next) => {
         req.session.user = user
         req.session.save(err => {
             if (err) {
-                console.log(err)
                 return next(err)
             }
             req.flash('success','Successfully Logged In')
@@ -111,7 +109,6 @@ exports.logout = (req, res, next) => {
     req.flash('success','Successfully Logout')
     req.session.destroy(err => {
         if (err) {
-            console.log(err)
             return next(err)
         }
         return res.redirect('/auth/login')
