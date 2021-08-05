@@ -1,6 +1,6 @@
 const authRoutes = require("./authRoutes");
 const dashboardRoute = require("./dashboardRoute");
-const validatorRoutes = require('../playground/validator') //TODO: Should be remove
+const playGround = require('../playground/play') //TODO: Should be remove
 const routes = [
     {
         path: '/auth',
@@ -12,7 +12,7 @@ const routes = [
     },
     {
         path: '/playground',
-        handler: validatorRoutes //TODO: Should be remove
+        handler: playGround //TODO: Should be remove
     },
     {
         path: '/',

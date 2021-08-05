@@ -2,15 +2,34 @@ const router = require('express').Router()
 const {check, validationResult} = require('express-validator')
 const Flash = require("../utils/Flash");
 
-router.get('/validator', (req, res, next) => {
+const uploadMiddleware = require('../middleware/uploadMiddleware')
+
+router.get('/play', (req, res, next) => {
     // console.log(req.flash('fail'))
     // console.log(req.flash('success'))
 
     console.log(Flash.getMessage(req))
-    res.render('playground/signup', {title: 'Validator PlayGround'})
+    res.render('playground/play', {
+        title: 'Validator PlayGround',
+        flashMessage: {}
+    })
 })
 
-router.post('/validator',
+
+router.post('/play', uploadMiddleware.single('image'),(req, res, next) => {
+
+    if (req.file){
+        console.log(req.file)
+    }
+    res.redirect('/playground/play')
+})
+
+
+
+
+
+
+/*router.post('/play',
     check('username')
         .not()
         .isEmpty().withMessage('Username can not be Empty')
@@ -38,7 +57,7 @@ router.post('/validator',
         }else{
             req.flash('success', 'There is no Some error')
         }
-        res.redirect('/playground/validator')
+        res.redirect('/playground/play')
         // console.log(errors)
         // console.log(errors.isEmpty())
         // console.log(errors.mapped())
@@ -50,6 +69,6 @@ router.post('/validator',
         // console.log(req.body.username,req.body.email)
         //
         // res.render('playground/signup', {title: 'Validator PlayGround'})
-    })
+    })*/
 
 module.exports = router
