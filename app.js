@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require("mongoose");
@@ -17,7 +18,7 @@ const setLocals = require('./middleware/setLocals')
 //Playground Routes
 const validatorRoutes = require('./playground/validator') //TODO: Should be remove
 
-let dbHost = 'mongodb+srv://testadmin:testadmin@cluster0.ivbeu.mongodb.net/express-blog'
+let dbHost = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.ivbeu.mongodb.net/${process.env.DB_NAME}`
 const store = new MongoDBStore({
     uri: dbHost,
     collection: 'sessions',
@@ -30,9 +31,14 @@ const app = express()
 app.set('view engine', 'ejs')
 app.set('views', 'views')
 
+
+if (app.get('env').toLowerCase() === 'development') {
+    app.use(morgan('dev'))
+}
+
 //Middleware Array
 const middleware = [
-    morgan('dev'),
+
     express.static('public'),
     express.urlencoded({extended: true}),
     express.json(),
@@ -61,9 +67,8 @@ app.get('*', (req, res) => {
     res.send('<h1>404 !<br> Page Not Found</h1>')
 })
 
-
 //Server Connection
-const PORT = process.env.PORT || 4141
+const PORT = process.env.PORT
 mongoose.connect(`${dbHost}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
