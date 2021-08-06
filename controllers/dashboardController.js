@@ -81,18 +81,66 @@ exports.createProfilePostController = async (req, res, next) => {
 exports.editProfileGetController = async (req, res, next) => {
     try {
         let profile = await Profile.findOne({user: req.user._id})
-        if (profile) {
-            return res.render('pages/dashboard/edit-profile', {
-                title: 'Edit Profile',
-                flashMessage: Flash.getMessage(req)
-            })
+        if (!profile) {
+            return res.redirect('/dashboard/create-profile')
         }
-        return res.redirect('/dashboard/create-profile')
+        return res.render('pages/dashboard/edit-profile', {
+            title: 'Edit Profile',
+            error: {},
+            profile: profile,
+            flashMessage: Flash.getMessage(req)
+        })
     } catch (e) {
         next(e)
     }
 }
 
-exports.editProfilePostController = (req, res, next) => {
+exports.editProfilePostController = async (req, res, next) => {
+    let errors = validationResult(req).formatWith(errorFormatter)
+    let {name, title, bio, website, facebook, twitter, github} = req.body
+    console.log(errors)
+    if (!errors.isEmpty()) {
+        return res.render('pages/dashboard/create-profile', {
+            title: 'Create Profile',
+            error: errors.mapped(),
+            flashMessage: Flash.getMessage(req),
+            profile: {
+                name,
+                title,
+                bio,
+                website,
+                links: {
+                    website, facebook, twitter, github
+                }
+            }
+        })
+    }
+    try {
+        let profile = {
+            name,
+            title,
+            bio,
+            links: {
+                website: website || '',
+                facebook: facebook || '',
+                twitter: twitter || '',
+                github: github || '',
+            }
+        }
+        let updatedProfile = await Profile.findOneAndUpdate(
+            {user: req.user._id},
+            {$set: profile},
+            {new: true}
+        )
+        req.flash('success', 'Profile Updated Successfully!')
+        return res.render('pages/dashboard/edit-profile', {
+            title: 'Edit Profile',
+            error: {},
+            profile: updatedProfile,
+            flashMessage: Flash.getMessage(req)
+        })
 
+    } catch (e) {
+        next(e)
+    }
 }

@@ -31,7 +31,7 @@ const profileSchema = new Schema({
     links: {
         website: String,
         facebook: String,
-        linkedin: String,
+        twitter: String,
         github: String
     },
     posts: [

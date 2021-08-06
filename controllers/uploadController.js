@@ -4,6 +4,7 @@ const Profile = require("../models/Profile");
 exports.uploadProfilePicture = async (req, res, next) => {
     if (req.file) {
         try {
+            let oldProfilePics = req.user.profilePics
             let profile = await Profile.findOne({user: req.user._id})
             let profilePics = `/uploads/${req.file.filename}`
             if (profile) {
@@ -16,6 +17,13 @@ exports.uploadProfilePicture = async (req, res, next) => {
             await User.findOneAndUpdate({_id: req.user._id},
                 {$set: {profilePics: profilePics}}
             )
+            if (oldProfilePics !== '/uploads/default.jpg') {
+                fs.unlink(`public${oldProfilePics}`, err => {
+                    if (err) {
+                        console.log(err)
+                    }
+                })
+            }
             res.status(200).json({profilePics})
         } catch (e) {
             res.status(500).json({
