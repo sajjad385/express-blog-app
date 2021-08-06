@@ -68,6 +68,25 @@ window.onload = function () {
 
             })
     })
+    $('#removeProfilePics').on('click', function () {
+        let headers = new Headers()
+        headers.append('Accept', 'Application/JSON')
+        let req = new Request('/uploads/profilePics', {
+            method: 'DELETE',
+            mode: 'cors',
+            headers:headers,
+        })
+        fetch(req)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('removeProfilePics').style.display = 'none'
+                document.getElementById('profilePics').src = data.profilePics
+                document.getElementById('profilePicsForm').reset()
+            }).catch(e=>{
+            console.log(e)
+            alert('Server Error Occured')
+        })
+    })
 
     function generateFileName(name) {
         const types = /(.jpeg|.jpg|.png|gif)/
