@@ -1,6 +1,6 @@
 const {Schema, model} = require('mongoose')
-// const Profile = require("./Profile");
-const Profile = 'Profile';
+const Profile = require("./Profile");
+// const Profile = 'Profile';
 
 const userSchema = new Schema({
     username: {
@@ -20,7 +20,11 @@ const userSchema = new Schema({
     },
     profile: {
         type: Schema.Types.ObjectId,
-        ref: Profile
+        ref: 'Profile'
+    },
+    profilePics :{
+      type:String,
+      default:'/uploads/default.jpg'
     }
 }, {
     timestamps: true

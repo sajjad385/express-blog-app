@@ -1,7 +1,54 @@
 const Flash = require("../utils/Flash");
-exports.dashboardGetController = (req, res, next) => {
-    res.render('pages/dashboard/dashboard', {
-        title: 'My Dashboard',
-        flashMessage: Flash.getMessage(req)
-    })
+const Profile = require("../models/Profile");
+exports.dashboardGetController = async (req, res, next) => {
+    try {
+        let profile = await Profile.findOne({user: req.user._id})
+        if (profile) {
+            return res.render('pages/dashboard/dashboard', {
+                title: 'My Dashboard',
+                flashMessage: Flash.getMessage(req)
+            })
+        }
+        res.redirect('/dashboard/create-profile')
+    } catch (e) {
+        next(e)
+    }
+
+
+}
+exports.createProfileGetController = async (req, res, next) => {
+    try {
+        let profile = await Profile.findOne({user: req.user._id})
+        if (profile) {
+            return res.redirect('/dashboard/edit-profile')
+        }
+        res.render('pages/dashboard/create-profile', {
+            title: 'Create Profile',
+            flashMessage: Flash.getMessage(req)
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+exports.createProfilePostController = (req, res, next) => {
+
+}
+
+exports.editProfileGetController = async (req, res, next) => {
+    try {
+        let profile = await Profile.findOne({user: req.user._id})
+        if (profile) {
+            return res.render('pages/dashboard/edit-profile', {
+                title: 'Edit Profile',
+                flashMessage: Flash.getMessage(req)
+            })
+        }
+        return res.redirect('/dashboard/create-profile')
+    } catch (e) {
+        next(e)
+    }
+}
+
+exports.editProfilePostController = (req, res, next) => {
+
 }

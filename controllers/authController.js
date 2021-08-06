@@ -106,7 +106,6 @@ exports.loginPost = async (req, res, next) => {
     }
 }
 exports.logout = (req, res, next) => {
-    req.flash('success','Successfully Logout')
     req.session.destroy(err => {
         if (err) {
             return next(err)

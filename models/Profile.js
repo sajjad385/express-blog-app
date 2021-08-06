@@ -1,12 +1,12 @@
 const {Schema, model} = require('mongoose')
-// const User = require("./User");
-const User = 'User';
+const User = require("./User");
+// const User = 'User';
 // const Post = require("./Post");
 const Post = 'Post';
 const profileSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: User,
+        ref: 'User',
         required: true
     },
     name: {
@@ -35,13 +35,13 @@ const profileSchema = new Schema({
     posts: [
         {
             type: Schema.Types.ObjectId,
-            ref: Post
+            ref: 'Post'
         }
     ],
     bookmarks: [
         {
             type: Schema.Types.ObjectId,
-            ref: Post
+            ref: 'Post'
         }
     ]
 }, {
