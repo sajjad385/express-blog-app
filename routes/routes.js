@@ -1,5 +1,6 @@
 const authRoutes = require("./authRoutes");
 const dashboardRoute = require("./dashboardRoute");
+const postRoutes = require("./postRoutes");
 const uploadRoutes = require("./uploadRoutes");
 const playGround = require('../playground/play') //TODO: Should be remove
 const routes = [
@@ -10,6 +11,10 @@ const routes = [
     {
         path: '/dashboard',
         handler: dashboardRoute
+    },
+    {
+        path: '/posts',
+        handler: postRoutes
     },
     {
         path: '/uploads',
