@@ -4,10 +4,10 @@ const {
     createProfilePostController,
     editProfilePostController,
     editProfileGetController
-} = require("../controllers/dashboardController");
-const {isAuthenticated} = require("../middleware/authMiddleware");
+} = require("../app/controllers/dashboardController");
+const {isAuthenticated} = require("../app/middleware/authMiddleware");
 const router = require('express').Router()
-const profileValidator =require('../validator/dashboard/profileValidator')
+const profileValidator =require('../app/validator/dashboard/profileValidator')
 
 router.get('/', isAuthenticated, dashboardGetController)
 router.get('/create-profile', isAuthenticated, createProfileGetController)

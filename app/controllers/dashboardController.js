@@ -1,7 +1,7 @@
-const Flash = require("../utils/Flash");
+const Flash = require("../../utils/Flash");
 const Profile = require("../models/Profile");
 const {validationResult} = require("express-validator");
-const errorFormatter = require("../utils/validationErrorFormatter");
+const errorFormatter = require("../../utils/validationErrorFormatter");
 const User = require("../models/User");
 exports.dashboardGetController = async (req, res, next) => {
     try {

@@ -6,7 +6,7 @@ const chalk = require('chalk')
 
 
 //set middleware
-const setMiddleware = require('./middleware/middleware')
+const setMiddleware = require('./app/middleware/middleware')
 //set Route
 const setRoutes = require('./routes/routes')
 

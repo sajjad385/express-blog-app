@@ -2,7 +2,7 @@ const router = require('express').Router()
 const {check, validationResult} = require('express-validator')
 const Flash = require("../utils/Flash");
 
-const uploadMiddleware = require('../middleware/uploadMiddleware')
+const uploadMiddleware = require('../app/middleware/uploadMiddleware')
 
 router.get('/play', (req, res, next) => {
     // console.log(req.flash('fail'))

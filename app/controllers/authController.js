@@ -1,8 +1,8 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const {validationResult, body} = require("express-validator");
-const errorFormatter = require('../utils/validationErrorFormatter')
-const Flash = require("../utils/Flash");
+const errorFormatter = require('../../utils/validationErrorFormatter')
+const Flash = require("../../utils/Flash");
 
 exports.signupGet = (req, res, next) => {
     res.render('pages/auth/signup',
