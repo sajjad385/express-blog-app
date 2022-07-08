@@ -12,7 +12,8 @@ exports.create = (req, res, next) => {
 }
 
 exports.store = async (req, res, next) => {
-    let errors = valideiationResult(req).formatWith(errorFormatter)
+    console.log(req.body)
+    let errors = validationResult(req).formatWith(errorFormatter)
     console.log(errors.mapped())
     if (!errors.isEmpty()) {
         return res.render('pages/dashboard/posts/create', {

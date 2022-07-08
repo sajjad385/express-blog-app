@@ -28,5 +28,11 @@ const upload = multer({
     }
 })
 
+exports.postImageUpload = (req, res, next) => {
+    if (req.file) {
+        res.status(200)
+    }
+}
+
 
 module.exports = upload
