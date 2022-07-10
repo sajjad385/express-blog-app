@@ -7,6 +7,18 @@ const Post = require('../models/Post')
 const Profile = require('../models/Profile')
 
 
+exports.index = async (req, res, next) => {
+    try {
+        let posts = await Post.find({author: req.user._id})
+        res.render('pages/dashboard/posts/index', {
+            title: 'My Posts',
+            flashMessage: Flash.getMessage(req),
+            posts
+        })
+    } catch (e) {
+        next(e)
+    }
+}
 exports.create = (req, res, next) => {
     res.render('pages/dashboard/posts/create', {
         title: 'Create Post',
@@ -144,13 +156,7 @@ exports.destroy = async (req, res, next) => {
             {$pull: {'posts': post._id}}
         )
         req.flash('success', 'Post deleted successfully.')
-        res.render('pages/dashboard/posts/create', {
-            title: 'Create A New Post',
-            error: {},
-            flashMessage: Flash.getMessage(req),
-            existingValue : {}
-        })
-
+        return res.redirect('/posts')
     } catch (e) {
         next(e)
     }
