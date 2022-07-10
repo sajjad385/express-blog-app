@@ -4,10 +4,16 @@
         <div class="col-md-2"></div>
         <div class="col-md-10 my-5">
             <div class="card card-body mx-5 py-5">
+                <h3>Create A New Post</h3>
                 <form action="/posts/create" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Enter Your Post Title</label>
-                        <input type="text" name="title" id="title" placeholder="Post Title" class="form-control">
+                        <input type="text" name="title" id="title" placeholder="Post Title"
+                               class="form-control <%= error.title ? 'is-invalid' : '' %>"
+                               value="<%= existingValue.title ? existingValue.title : '' %>">
+                        <div class="invalid-feedback">
+                            <%= error.title && error.title %>
+                        </div>
                     </div>
                     <div class="form-group mt-3">
                         <label for="tiny-mce-post-body">Enter Your Post Body</label>
@@ -18,7 +24,7 @@
                         <input type="text" name="tags" id="tags" placeholder="ex- tag1,tag2,tag3" class="form-control">
                     </div>
                     <div class="input-group mb-3 mt-3">
-                        <input type="file" class="form-control" id="inputGroupFile">
+                        <input type="file" class="form-control" name="post-thumbnail" id="inputGroupFile">
                         <label class="input-group-text" for="inputGroupFile">Upload</label>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Create Post">

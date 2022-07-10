@@ -1,0 +1,57 @@
+<%- include('../../../partials/head.ejs') %>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10 my-5">
+            <div class="card card-body mx-5 py-5">
+                <h3>Edit Post</h3>
+                <form action="/posts/update/<%=post._id%>" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="title">Enter Your Post Title</label>
+                        <input type="text" name="title" id="title" placeholder="Post Title"
+                               class="form-control <%= error.title ? 'is-invalid' : '' %>"
+                               value="<%= post.title %>">
+                        <div class="invalid-feedback">
+                            <%= error.title && error.title %>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="tiny-mce-post-body">Enter Your Post Body</label>
+                        <textarea name="body" id="tiny-mce-post-body"
+                                  class="form-control <%= error.body ? 'is-invalid' : '' %>">
+                                <%= post.body %>
+                        </textarea>
+                        <div class="invalid-feedback">
+                            <%= error.body && error.body %>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="tags">Enter Your Some Tags (Max limit 10)</label>
+                        <input type="text" name="tags" id="tags"
+                               placeholder="ex- tag1,tag2,tag3"
+                               class="form-control"
+                               value="<%= post.tags.length > 0 ? post.tags.join(', ') : ''%>"
+                        >
+                    </div>
+                    <% if (post.thumbnail) { %>
+                        <label>Post Thumbnail</label>
+                        <img src="<%= post.thumbnail %>" alt="Post Thumbnail" class="img-fluid mt-4 img-thumbnail" width="300" height="300">
+                    <% } %>
+                    <div class="input-group mb-3 mt-3">
+                        <input type="file" class="form-control" name="post-thumbnail" id="inputGroupFile">
+                        <label class="input-group-text" for="inputGroupFile">Upload</label>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="update Post">
+                    <a  class="btn btn-danger" href="/posts/delete/<%=post._id%>">Delete Post</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<%- include('../../../partials/footer.ejs') %>
+<script src="https://cdn.tiny.cloud/1/9c1n7cvg05dpudrbexwx2psfhin7rghlh9oio1v6zajd9lhz/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+<script src="/scripts/tinymce.js"></script>
+</body>
+</html>
