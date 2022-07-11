@@ -2,13 +2,13 @@ const Post = require('../../models/Post')
 
 exports.storeLike = async (req, res, next) => {
     let {postId} = req.params
-    let userId = req.user._id
     let liked = null
     if (!req.user) {
         return res.status(403).json({
             error: 'You are not an authenticated user.'
         })
     }
+    let userId = req.user._id
     try {
         let post = Post.findById(postId)
         if (post.dislikes.includes(userId)) {
@@ -44,13 +44,13 @@ exports.storeLike = async (req, res, next) => {
 }
 exports.storeDisLike = async (req, res, next) => {
     let {postId} = req.params
-    let userId = req.user._id
     let disliked = null
     if (!req.user) {
         return res.status(403).json({
             error: 'You are not an authenticated user.'
         })
     }
+    let userId = req.user._id
     try {
         let post = Post.findById(postId)
         if (post.likes.includes(userId)) {

@@ -4,6 +4,7 @@ const postRoutes = require("./postRoutes");
 const uploadRoutes = require("./uploadRoutes");
 const playGround = require('../playground/play') //TODO: Should be remove
 const apiRoutes = require("./apiRoutes");
+const exploreRoutes = require("./exploreRoutes");
 const routes = [
     {
         path: '/auth',
@@ -24,6 +25,10 @@ const routes = [
     {
         path: '/api',
         handler: apiRoutes
+    },
+    {
+        path: '/explore',
+        handler: exploreRoutes
     },
     {
         path: '/playground',
