@@ -27,8 +27,8 @@ const middlewares = [
     bindUserWithRequest(),
     setLocals()
 ]
-module.exports = app=>{
-    middlewares.forEach(middleware=>{
+module.exports = app => {
+    middlewares.forEach(middleware => {
         app.use(middleware)
     })
 }
